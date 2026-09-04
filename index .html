@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street interviews · nikotin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f5f5;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #1e1e1e;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 780px;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #cccccc;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+
+    h1 {
+      font-weight: 400;
+      font-size: 1.6rem;
+      letter-spacing: -0.02em;
+      border-bottom: 1px solid #d0d0d0;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.8rem;
+      color: #222;
+    }
+
+    .question-group {
+      margin-bottom: 1.8rem;
+    }
+
+    .question-label {
+      display: block;
+      font-weight: 450;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      color: #1e1e1e;
+      line-height: 1.4;
+    }
+
+    .question-input {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      font-size: 0.95rem;
+      border: 1px solid #b0b0b0;
+      background: #fafafa;
+      transition: border 0.1s ease;
+      color: #111;
+      font-family: inherit;
+    }
+
+    .question-input:focus {
+      outline: none;
+      border-color: #555555;
+      background: #ffffff;
+    }
+
+    textarea.question-input {
+      min-height: 68px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .name-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 0.5rem;
+      margin: 2.2rem 0 1.6rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .name-row label {
+      font-weight: 450;
+      font-size: 1rem;
+      color: #1e1e1e;
+    }
+
+    .name-row input {
+      flex: 1 1 200px;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #b0b0b0;
+      background: #fafafa;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .name-row input:focus {
+      outline: none;
+      border-color: #3a3a3a;
+      background: #fff;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      justify-content: flex-start;
+      margin: 0.5rem 0 1.8rem;
+    }
+
+    .btn {
+      background: #ffffff;
+      border: 1px solid #7a7a7a;
+      padding: 0.6rem 1.8rem;
+      font-size: 0.95rem;
+      font-weight: 450;
+      color: #1e1e1e;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      box-shadow: none;
+      letter-spacing: 0.02em;
+      background: #f2f2f2;
+    }
+
+    .btn:hover {
+      background: #e6e6e6;
+      border-color: #4a4a4a;
+    }
+
+    .btn:active {
+      background: #d4d4d4;
+    }
+
+    .btn-primary {
+      background: #d0d0d0;
+      border-color: #555;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: #bfbfbf;
+      border-color: #333;
+    }
+
+    .saved-list {
+      margin-top: 2rem;
+      border-top: 1px solid #d0d0d0;
+      padding-top: 1.5rem;
+    }
+
+    .saved-list h2 {
+      font-weight: 400;
+      font-size: 1.2rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: #222;
+    }
+
+    .interview-item {
+      background: #f7f7f7;
+      border: 1px solid #d6d6d6;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .interview-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px dotted #bdbdbd;
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .interview-name {
+      font-weight: 550;
+      font-size: 1.1rem;
+      color: #111;
+    }
+
+    .interview-date {
+      font-size: 0.8rem;
+      color: #4d4d4d;
+    }
+
+    .interview-qa {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #1a1a1a;
+    }
+
+    .interview-qa p {
+      margin: 0.25rem 0;
+    }
+
+    .interview-qa strong {
+      font-weight: 500;
+      color: #222;
+    }
+
+    .empty-message {
+      color: #4f4f4f;
+      font-style: normal;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .clear-btn {
+      background: #ececec;
+      border: 1px solid #a0a0a0;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.8rem;
+      color: #2b2b2b;
+      margin-top: 0.3rem;
+      cursor: pointer;
+    }
+
+    .clear-btn:hover {
+      background: #ddd;
+    }
+
+    .video-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 0.8rem 0 0.3rem;
+    }
+
+    .video-row input[type="file"] {
+      font-size: 0.85rem;
+      color: #333;
+    }
+
+    .recorder {
+      display: none;
+      margin: 1rem 0;
+      border: 1px solid #b0b0b0;
+      background: #f0f0f0;
+      padding: 0.8rem;
+      width: fit-content;
+    }
+
+    .recorder video {
+      width: 260px;
+      display: block;
+      background: #000;
+    }
+
+    .recorder .rec-actions {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.6rem;
+      align-items: center;
+    }
+
+    .rec-dot {
+      display: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #c22;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0.2; } }
+
+    .attached-name {
+      font-size: 0.8rem;
+      color: #444;
+    }
+
+    .interview-item video.preview {
+      width: 100%;
+      max-width: 320px;
+      display: block;
+      margin-top: 0.6rem;
+      background: #000;
+    }
+
+    .footnote {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: #5a5a5a;
+      border-top: 1px solid #e2e2e2;
+      padding-top: 0.8rem;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <h1> · street interview</h1>
+
+    <!-- spørgsmål (listen) -->
+    <div class="question-group">
+      <label class="question-label">1. Benytter du nikotinprodukter?</label>
+      <input class="question-input" id="q1" placeholder="ja / nej / …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">2. Hvis ja — hvilke produkter bruger du?</label>
+      <input class="question-input" id="q2" placeholder="fx: cigaretter, vape, tyggetobak …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">3. Hvor ofte benytter du nikotinprodukter?</label>
+      <input class="question-input" id="q3" placeholder="dagligt, ugentligt, sjældent …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">4. Hvorfor tager du nikotin?</label>
+      <input class="question-input" id="q4" placeholder="fx: afslapning, energi, vane …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">5. Hvorfor begyndte du på nikotin?</label>
+      <input class="question-input" id="q5" placeholder="fx: nysgerrighed, venner, stress …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">6. Ved dine forældre du tager nikotin?</label>
+      <input class="question-input" id="q6" placeholder="ja / nej / måske …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">7. Hvordan har de det med dit forbrug?</label>
+      <input class="question-input" id="q7" placeholder="fx: accepterer, bekymrede, ved ikke …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">8. Benytter dine forældre nikotin?</label>
+      <input class="question-input" id="q8" placeholder="ja / nej / tidligere …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">9. Er du blevet tilbudt at tage nikotin?</label>
+      <input class="question-input" id="q9" placeholder="ja / nej / flere gange …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">10. Har du nogensinde følt dig presset til at tage nikotin?</label>
+      <input class="question-input" id="q10" placeholder="fx: nej, en sjælden gang, ofte …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">11. Har du oplevet negative effekter af at tage nikotin? (eller af ikke at tage?)</label>
+      <textarea class="question-input" id="q11" placeholder="fx: hoste, hovedpine, abstinenser, eller ingen …"></textarea>
+    </div>
+    <div class="question-group">
+      <label class="question-label">12. Er nikotin en ting der bliver benyttet i din omgangskreds?</label>
+      <input class="question-input" id="q12" placeholder="ja, blandt venner / nej / nogle få …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">13. Vil du gerne stoppe med nikotin? Og hvis ja, hvorfor tager du det så stadig?</label>
+      <textarea class="question-input" id="q13" placeholder="fx: ja, men svært pga. vane / nej, ikke lige nu …"></textarea>
+    </div>
+    <div class="question-group">
+      <label class="question-label">14. Hvilke situationer giver dig mest lyst til at bruge nikotin?</label>
+      <input class="question-input" id="q14" placeholder="fx: med venner, stress, efter mad …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">15. Hvor meget betyder prisen på produkterne for dit forbrug?</label>
+      <input class="question-input" id="q15" placeholder="fx: meget, lidt, ingen betydning …" />
+    </div>
+    <div class="question-group">
+      <label class="question-label">16. Hvad tror du skal til for at de ikke tager nikotin? (andres forbrug)</label>
+      <input class="question-input" id="q16" placeholder="fx: bedre information, priser, forbud …" />
+    </div>
+
+    <!-- Video: optag eller upload -->
+    <div class="video-row">
+      <button class="btn" id="recToggleBtn">Optag video</button>
+      <input type="file" id="videoUpload" accept="video/*" />
+      <span class="attached-name" id="attachedName"></span>
+    </div>
+    <div class="recorder" id="recorder">
+      <video id="recPreview" muted playsinline></video>
+      <div class="rec-actions">
+        <span class="rec-dot" id="recDot"></span>
+        <button class="btn" id="recStartStop">Start optagelse</button>
+        <button class="btn" id="recClose">Luk</button>
+      </div>
+    </div>
+
+    <!-- Navn + gem -->
+    <div class="name-row">
+      <label for="nameInput">Navn på person</label>
+      <input type="text" id="nameInput" placeholder="fx: Jonas, Amalie …" />
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="saveBtn">Gem interview</button>
+      <button class="btn" id="clearBtn">Ryd alle felter</button>
+    </div>
+
+    <!-- gemte interviews -->
+    <div class="saved-list" id="savedContainer">
+      <h2>Gemte interviews</h2>
+      <div id="listWrapper">
+        <div class="empty-message">Ingen gemte endnu · brug "Gem interview"</div>
+      </div>
+      <button class="clear-btn" id="exportBtn">Download alle (zip)</button>
+      <button class="clear-btn" id="clearAllBtn">Slet alle gemte</button>
+    </div>
+
+    <div class="footnote">grå/hvid · ingen farver · klik gem for at arkivere</div>
+  </div>
+
+  <script>
+    (function() {
+      // DOM referencer
+      const qInputs = [
+        document.getElementById('q1'),
+        document.getElementById('q2'),
+        document.getElementById('q3'),
+        document.getElementById('q4'),
+        document.getElementById('q5'),
+        document.getElementById('q6'),
+        document.getElementById('q7'),
+        document.getElementById('q8'),
+        document.getElementById('q9'),
+        document.getElementById('q10'),
+        document.getElementById('q11'),
+        document.getElementById('q12'),
+        document.getElementById('q13'),
+        document.getElementById('q14'),
+        document.getElementById('q15'),
+        document.getElementById('q16')
+      ];
+
+      const nameInput = document.getElementById('nameInput');
+      const saveBtn = document.getElementById('saveBtn');
+      const clearBtn = document.getElementById('clearBtn');
+      const clearAllBtn = document.getElementById('clearAllBtn');
+      const listWrapper = document.getElementById('listWrapper');
+      const videoUpload = document.getElementById('videoUpload');
+      const attachedName = document.getElementById('attachedName');
+      const recToggleBtn = document.getElementById('recToggleBtn');
+      const recStartStop = document.getElementById('recStartStop');
+      const recClose = document.getElementById('recClose');
+      const recDot = document.getElementById('recDot');
+      const recorderBox = document.getElementById('recorder');
+      const recPreview = document.getElementById('recPreview');
+      const exportBtn = document.getElementById('exportBtn');
+
+      const DB_NAME = 'StreetInterviews';
+      const DB_STORE = 'interviews';
+
+      function openDB() {
+        return new Promise((res, rej) => {
+          const req = indexedDB.open(DB_NAME, 1);
+          req.onupgradeneeded = () => req.result.createObjectStore(DB_STORE, { keyPath: 'id' });
+          req.onsuccess = () => res(req.result);
+          req.onerror = () => rej(req.error);
+        });
+      }
+
+      async function dbGetAll() {
+        const db = await openDB();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(DB_STORE, 'readonly');
+          tx.objectStore(DB_STORE).getAll().onsuccess = e => res(e.target.result);
+          tx.onerror = () => rej(tx.error);
+        });
+      }
+
+      async function dbPut(interview) {
+        const db = await openDB();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(DB_STORE, 'readwrite');
+          tx.objectStore(DB_STORE).put(interview).onsuccess = () => res();
+          tx.onerror = () => rej(tx.error);
+        });
+      }
+
+      async function dbDelete(id) {
+        const db = await openDB();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(DB_STORE, 'readwrite');
+          tx.objectStore(DB_STORE).delete(id).onsuccess = () => res();
+          tx.onerror = () => rej(tx.error);
+        });
+      }
+
+      async function dbClear() {
+        const db = await openDB();
+        return new Promise((res, rej) => {
+          const tx = db.transaction(DB_STORE, 'readwrite');
+          tx.objectStore(DB_STORE).clear().onsuccess = () => res();
+          tx.onerror = () => rej(tx.error);
+        });
+      }
+
+      // previews opbevares her, så vi kan rense dem på render
+      const previewUrls = [];
+
+      function cleanupPreviews() {
+        previewUrls.forEach(u => URL.revokeObjectURL(u));
+        previewUrls.length = 0;
+      }
+
+      // video der venter på at blive gemt med næste interview
+      let pendingVideo = null; // { blob, ext }
+
+      function extFromType(type) {
+        if (type.includes('mp4')) return 'mp4';
+        if (type.includes('webm')) return 'webm';
+        return 'webm';
+      }
+
+      function attachVideo(blob, ext) {
+        pendingVideo = { blob, ext };
+        attachedName.textContent = 'video vedhæftet (' + (blob.size / 1048576).toFixed(1) + ' MB)';
+      }
+
+      videoUpload.addEventListener('change', () => {
+        const f = videoUpload.files[0];
+        if (f) attachVideo(f, extFromType(f.type));
+      });
+
+      // --- optagelse via kamera ---
+      let stream = null, mediaRecorder = null, chunks = [];
+
+      recToggleBtn.addEventListener('click', async () => {
+        if (recorderBox.style.display === 'block') { closeRecorder(); return; }
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        } catch (err) {
+          alert('Kunne ikke tilgå kamera/mikrofon: ' + err.message);
+          return;
+        }
+        recPreview.srcObject = stream;
+        recorderBox.style.display = 'block';
+        recToggleBtn.textContent = 'Luk optager';
+      });
+
+      function closeRecorder() {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+        if (stream) stream.getTracks().forEach(t => t.stop());
+        stream = null;
+        recPreview.srcObject = null;
+        recorderBox.style.display = 'none';
+        recToggleBtn.textContent = 'Optag video';
+        recDot.style.display = 'none';
+        recStartStop.textContent = 'Start optagelse';
+      }
+
+      recStartStop.addEventListener('click', () => {
+        if (!stream) return;
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+          chunks = [];
+          const mime = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 'video/webm';
+          mediaRecorder = new MediaRecorder(stream, { mimeType: mime });
+          mediaRecorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(chunks, { type: mime });
+            attachVideo(blob, extFromType(mime));
+          };
+          mediaRecorder.start();
+          recStartStop.textContent = 'Stop';
+          recDot.style.display = 'inline-block';
+        } else {
+          mediaRecorder.stop();
+          recStartStop.textContent = 'Start optagelse';
+          recDot.style.display = 'none';
+        }
+      });
+
+      recClose.addEventListener('click', closeRecorder);
+
+      // --- zip (STORE, ingen komprimering – video er alligevel komprimeret) ---
+      // ponytail: håndskrevet minimal zip-writer i stedet for et bibliotek
+      const crcTable = (() => {
+        const t = new Uint32Array(256);
+        for (let n = 0; n < 256; n++) {
+          let c = n;
+          for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+          t[n] = c;
+        }
+        return t;
+      })();
+
+      function crc32(buf) {
+        let c = 0xFFFFFFFF;
+        for (let i = 0; i < buf.length; i++) c = crcTable[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+        return (c ^ 0xFFFFFFFF) >>> 0;
+      }
+
+      function buildZip(files) { // files: [{ path: string, data: Uint8Array }]
+        const enc = new TextEncoder();
+        const chunksArr = [];
+        const central = [];
+        let offset = 0;
+
+        const u16 = v => new Uint8Array([v & 0xFF, (v >>> 8) & 0xFF]);
+        const u32 = v => new Uint8Array([v & 0xFF, (v >>> 8) & 0xFF, (v >>> 16) & 0xFF, (v >>> 24) & 0xFF]);
+        const cat = arrs => {
+          const len = arrs.reduce((s, a) => s + a.length, 0);
+          const out = new Uint8Array(len);
+          let p = 0;
+          for (const a of arrs) { out.set(a, p); p += a.length; }
+          return out;
+        };
+
+        for (const f of files) {
+          const nameBytes = enc.encode(f.path);
+          const crc = crc32(f.data);
+          const local = cat([u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0),
+            u32(crc), u32(f.data.length), u32(f.data.length), u16(nameBytes.length), u16(0),
+            nameBytes, f.data]);
+          chunksArr.push(local);
+          central.push(cat([u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0),
+            u32(crc), u32(f.data.length), u32(f.data.length), u16(nameBytes.length), u16(0), u16(0),
+            u16(0), u16(0), u32(0), u32(offset), nameBytes]));
+          offset += local.length;
+        }
+        const centralBuf = cat(central);
+        const eocd = cat([u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length),
+          u32(centralBuf.length), u32(offset), u16(0)]);
+        return new Blob([cat(chunksArr), centralBuf, eocd], { type: 'application/zip' });
+      }
+
+      function safeName(s) {
+        return (s || 'interview').replace(/[^\wæøåÆØÅ-]+/g, '_').replace(/^_+|_+$/g, '') || 'interview';
+      }
+
+      const qTexts = [
+        'Benytter du nikotinprodukter?',
+        'Hvis ja — hvilke produkter bruger du?',
+        'Hvor ofte benytter du nikotinprodukter?',
+        'Hvorfor tager du nikotin?',
+        'Hvorfor begyndte du på nikotin?',
+        'Ved dine forældre du tager nikotin?',
+        'Hvordan har de det med dit forbrug?',
+        'Benytter dine forældre nikotin?',
+        'Er du blevet tilbudt at tage nikotin?',
+        'Har du nogensinde følt dig presset til at tage nikotin?',
+        'Har du oplevet negative effekter? (eller af ikke at tage?)',
+        'Er nikotin en ting i din omgangskreds?',
+        'Vil du gerne stoppe? Hvis ja, hvorfor tager du det?',
+        'Hvilke situationer giver mest lyst?',
+        'Hvor meget betyder prisen?',
+        'Hvad tror du skal til for at de ikke tager nikotin?'
+      ];
+
+      function escapeHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      // --- export ---
+      exportBtn.addEventListener('click', async () => {
+        const interviews = await dbGetAll();
+        if (interviews.length === 0) { alert('Ingen gemte interviews.'); return; }
+        const files = [];
+        const used = new Set();
+        for (const item of interviews) {
+          let folder = safeName(item.name);
+          let n = 2;
+          while (used.has(folder)) folder = safeName(item.name) + '_' + (n++);
+          used.add(folder);
+
+          let txt = 'Interview: ' + (item.name || '(navn mangler)') + '\n' +
+            'Dato: ' + new Date(item.savedAt).toLocaleString('da-DK') + '\n\n';
+          const answers = item.answers || [];
+          for (let i = 0; i < qTexts.length; i++) {
+            txt += (i + 1) + '. ' + qTexts[i] + '\n   Svar: ' +
+              ((answers[i] && answers[i].trim()) || '—') + '\n';
+          }
+          files.push({ path: folder + '/answers.txt', data: new TextEncoder().encode(txt) });
+
+          if (item.videoBlob) {
+            const buf = await item.videoBlob.arrayBuffer();
+            files.push({ path: folder + '/video.' + (item.videoExt || 'webm'), data: new Uint8Array(buf) });
+          }
+        }
+        const url = URL.createObjectURL(buildZip(files));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'interviews.zip';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+      });
+
+      async function renderList() {
+        cleanupPreviews();
+        const interviews = await dbGetAll();
+        if (interviews.length === 0) {
+          listWrapper.innerHTML = `<div class="empty-message">Ingen gemte endnu · brug "Gem interview"</div>`;
+          return;
+        }
+
+        const sorted = [...interviews].sort((a, b) =>
+          new Date(b.savedAt) - new Date(a.savedAt)
+        );
+
+        let html = '';
+        for (const item of sorted) {
+          const dateStr = new Date(item.savedAt).toLocaleString('da-DK', {
+            day: '2-digit', month: '2-digit', year: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+          });
+          const name = escapeHtml(item.name || '(navn mangler)');
+          const answers = item.answers || [];
+
+          let qaHtml = '';
+          for (let i = 0; i < qTexts.length; i++) {
+            const svar = escapeHtml((answers[i] && answers[i].trim()) ? answers[i] : '—');
+            qaHtml += `<p><strong>${i+1}. </strong>${svar}</p>`;
+          }
+
+          let videoHtml = '';
+          if (item.videoBlob) {
+            const url = URL.createObjectURL(item.videoBlob);
+            previewUrls.push(url);
+            videoHtml = `<video class="preview" controls src="${url}"></video>`;
+          }
+
+          html += `
+            <div class="interview-item">
+              <div class="interview-header">
+                <span class="interview-name">${name}</span>
+                <span class="interview-date">${dateStr}</span>
+              </div>
+              <div class="interview-qa">${qaHtml}</div>
+              ${videoHtml}
+            </div>
+          `;
+        }
+        listWrapper.innerHTML = html;
+      }
+
+      async function saveCurrent() {
+        const answers = qInputs.map(inp => inp ? inp.value : '');
+        const name = nameInput.value.trim() || '';
+        const hasContent = answers.some(a => a && a.trim() !== '');
+        if (!hasContent && name === '') {
+          alert('Udfyld mindst ét svar eller angiv et navn.');
+          return;
+        }
+
+        const interview = {
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+          name: name || '(navn mangler)',
+          answers: answers,
+          savedAt: new Date().toISOString()
+        };
+
+        if (pendingVideo) {
+          interview.videoBlob = pendingVideo.blob;
+          interview.videoExt = pendingVideo.ext;
+          pendingVideo = null;
+          attachedName.textContent = '';
+          videoUpload.value = '';
+        }
+
+        await dbPut(interview);
+        await renderList();
+
+        qInputs.forEach(inp => { if (inp) inp.value = ''; });
+        nameInput.value = '';
+        if (qInputs[0]) qInputs[0].focus();
+      }
+
+      function clearAllFields() {
+        qInputs.forEach(inp => { if (inp) inp.value = ''; });
+        nameInput.value = '';
+        pendingVideo = null;
+        attachedName.textContent = '';
+        videoUpload.value = '';
+        if (qInputs[0]) qInputs[0].focus();
+      }
+
+      async function clearAllSaved() {
+        if (listWrapper.querySelector('.empty-message')) return;
+        if (confirm('Slet alle gemte interviews?')) {
+          await dbClear();
+          await renderList();
+        }
+      }
+
+      renderList();
+
+      saveBtn.addEventListener('click', saveCurrent);
+      clearBtn.addEventListener('click', clearAllFields);
+      clearAllBtn.addEventListener('click', clearAllSaved);
+
+      nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); saveCurrent(); }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          const target = e.target;
+          if (target && target.closest('.container')) {
+            e.preventDefault();
+            saveCurrent();
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
